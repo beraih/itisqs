@@ -13,7 +13,6 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "IT-ISQS Knowledge Sharing Platform",
   description: "Explore courses, participate in discussions, and engage with the community",
-    generator: 'v0.dev'
 }
 
 export default function RootLayout({
