@@ -1,9 +1,30 @@
+"use client"
+
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { MessageSquare, PlusCircle, BookOpen, Coffee } from "lucide-react"
+import { useEffect, useState } from "react"
 
 export default function ForumsPage() {
+  const router = useRouter()
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+
+  useEffect(() => {
+    // Check authentication status on client side
+    const authStatus = localStorage.getItem("isAuthenticated") === "true"
+    setIsAuthenticated(authStatus)
+  }, [])
+
+  const handleCreatePost = () => {
+    if (!isAuthenticated) {
+      router.push("/log-in")
+      return
+    }
+    router.push("/forums/create-post")
+  }
+
   return (
     <div className="container px-4 py-12 md:px-6 max-w-7xl mx-auto">
       <div className="flex flex-col gap-2 mb-8">
@@ -15,11 +36,9 @@ export default function ForumsPage() {
 
       {/* Create Post Button */}
       <div className="flex flex-col sm:flex-row gap-4 mb-8">
-        <Button className="flex gap-2" asChild>
-          <Link href="/forums/create-post">
-            <PlusCircle className="h-4 w-4" />
-            <span>Create New Post</span>
-          </Link>
+        <Button className="flex gap-2" onClick={handleCreatePost}>
+          <PlusCircle className="h-4 w-4" />
+          <span>Create New Post</span>
         </Button>
       </div>
 

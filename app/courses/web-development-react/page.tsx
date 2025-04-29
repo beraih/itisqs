@@ -1,3 +1,7 @@
+"use client"
+
+import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -5,6 +9,22 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ChevronLeft, BookOpen, Video, FileText, Clock } from "lucide-react"
 
 export default function ReactCoursePage() {
+  const router = useRouter()
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+
+  useEffect(() => {
+    // Check authentication status on client side
+    const authStatus = localStorage.getItem("isAuthenticated") === "true"
+    setIsAuthenticated(authStatus)
+  }, [])
+
+  const handleAuthRequiredClick = (e, path) => {
+    if (!isAuthenticated) {
+      e.preventDefault()
+      router.push("/log-in")
+    }
+  }
+
   return (
     <div className="container px-4 py-12 md:px-6 max-w-7xl mx-auto">
       <div className="mb-6">
@@ -126,6 +146,7 @@ export default function ReactCoursePage() {
                 <Link
                   href="/courses/web-development-react/videos/introduction"
                   className="flex items-start gap-3 hover:bg-muted/50 p-2 rounded-md transition-colors"
+                  onClick={(e) => handleAuthRequiredClick(e, "/courses/web-development-react/videos/introduction")}
                 >
                   <Video className="h-5 w-5 mt-0.5 text-primary" />
                   <div>
@@ -136,6 +157,7 @@ export default function ReactCoursePage() {
                 <Link
                   href="/courses/web-development-react/videos/components"
                   className="flex items-start gap-3 hover:bg-muted/50 p-2 rounded-md transition-colors"
+                  onClick={(e) => handleAuthRequiredClick(e, "/courses/web-development-react/videos/components")}
                 >
                   <Video className="h-5 w-5 mt-0.5 text-primary" />
                   <div>
@@ -146,6 +168,7 @@ export default function ReactCoursePage() {
                 <Link
                   href="/courses/web-development-react/videos/state"
                   className="flex items-start gap-3 hover:bg-muted/50 p-2 rounded-md transition-colors"
+                  onClick={(e) => handleAuthRequiredClick(e, "/courses/web-development-react/videos/state")}
                 >
                   <Video className="h-5 w-5 mt-0.5 text-primary" />
                   <div>
@@ -156,6 +179,7 @@ export default function ReactCoursePage() {
                 <Link
                   href="/courses/web-development-react/videos/events"
                   className="flex items-start gap-3 hover:bg-muted/50 p-2 rounded-md transition-colors"
+                  onClick={(e) => handleAuthRequiredClick(e, "/courses/web-development-react/videos/events")}
                 >
                   <Video className="h-5 w-5 mt-0.5 text-primary" />
                   <div>
@@ -166,6 +190,7 @@ export default function ReactCoursePage() {
                 <Link
                   href="/courses/web-development-react/videos/hooks"
                   className="flex items-start gap-3 hover:bg-muted/50 p-2 rounded-md transition-colors"
+                  onClick={(e) => handleAuthRequiredClick(e, "/courses/web-development-react/videos/hooks")}
                 >
                   <Video className="h-5 w-5 mt-0.5 text-primary" />
                   <div>
@@ -181,6 +206,7 @@ export default function ReactCoursePage() {
                   <Link
                     href="/courses/web-development-react/materials/syllabus"
                     className="flex items-center gap-3 hover:bg-muted/50 p-2 rounded-md transition-colors"
+                    onClick={(e) => handleAuthRequiredClick(e, "/courses/web-development-react/materials/syllabus")}
                   >
                     <FileText className="h-5 w-5 text-primary" />
                     <span>Course Syllabus</span>
@@ -188,6 +214,7 @@ export default function ReactCoursePage() {
                   <Link
                     href="/courses/web-development-react/materials/setup"
                     className="flex items-center gap-3 hover:bg-muted/50 p-2 rounded-md transition-colors"
+                    onClick={(e) => handleAuthRequiredClick(e, "/courses/web-development-react/materials/setup")}
                   >
                     <FileText className="h-5 w-5 text-primary" />
                     <span>React Project Setup Guide</span>
@@ -195,6 +222,7 @@ export default function ReactCoursePage() {
                   <Link
                     href="/courses/web-development-react/materials/patterns"
                     className="flex items-center gap-3 hover:bg-muted/50 p-2 rounded-md transition-colors"
+                    onClick={(e) => handleAuthRequiredClick(e, "/courses/web-development-react/materials/patterns")}
                   >
                     <FileText className="h-5 w-5 text-primary" />
                     <span>Component Design Patterns</span>

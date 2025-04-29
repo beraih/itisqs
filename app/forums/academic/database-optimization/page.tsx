@@ -1,11 +1,35 @@
+"use client"
+
+import type React from "react"
+
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Textarea } from "@/components/ui/textarea"
 import { ChevronLeft } from "lucide-react"
+import { useEffect, useState } from "react"
 
 export default function DatabaseOptimizationThreadPage() {
+  const router = useRouter()
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+
+  useEffect(() => {
+    // Check authentication status on client side
+    const authStatus = localStorage.getItem("isAuthenticated") === "true"
+    setIsAuthenticated(authStatus)
+  }, [])
+
+  const handleReplySubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!isAuthenticated) {
+      router.push("/log-in")
+      return
+    }
+    // Handle reply submission logic here
+  }
+
   return (
     <div className="container px-4 py-12 md:px-6 max-w-5xl mx-auto">
       <div className="mb-6">
@@ -60,13 +84,20 @@ export default function DatabaseOptimizationThreadPage() {
         <CardHeader className="pb-2">
           <h3 className="font-semibold">Join the conversation</h3>
         </CardHeader>
-        <CardContent>
-          <Textarea placeholder="Write your reply here..." className="min-h-[120px]" />
-        </CardContent>
-        <CardFooter className="flex justify-end gap-2">
-          <Button variant="outline">Cancel</Button>
-          <Button>Post Reply</Button>
-        </CardFooter>
+        <form onSubmit={handleReplySubmit}>
+          <CardContent>
+            <Textarea placeholder="Write your reply here..." className="min-h-[120px]" />
+            {!isAuthenticated && (
+              <p className="text-sm text-muted-foreground mt-2">You need to be logged in to post a reply.</p>
+            )}
+          </CardContent>
+          <CardFooter className="flex justify-end gap-2">
+            <Button variant="outline" type="button">
+              Cancel
+            </Button>
+            <Button type="submit">{isAuthenticated ? "Post Reply" : "Log in to Reply"}</Button>
+          </CardFooter>
+        </form>
       </Card>
     </div>
   )

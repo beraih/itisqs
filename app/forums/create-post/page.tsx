@@ -2,8 +2,9 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -14,9 +15,28 @@ import { ChevronLeft } from "lucide-react"
 
 export default function CreatePostPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const router = useRouter()
+
+  useEffect(() => {
+    // Check if user is authenticated
+    const authStatus = localStorage.getItem("isAuthenticated") === "true"
+    setIsAuthenticated(authStatus)
+
+    // Redirect to login if not authenticated
+    if (!authStatus) {
+      router.push("/log-in")
+    }
+  }, [router])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+
+    if (!isAuthenticated) {
+      router.push("/log-in")
+      return
+    }
+
     setIsSubmitting(true)
 
     // Here you would integrate with your backend
@@ -37,8 +57,13 @@ export default function CreatePostPage() {
     setTimeout(() => {
       setIsSubmitting(false)
       // Redirect would happen here after successful submission
-      // router.push('/forums')
+      router.push("/forums")
     }, 1000)
+  }
+
+  // If not authenticated, show loading or nothing while redirecting
+  if (!isAuthenticated) {
+    return null
   }
 
   return (

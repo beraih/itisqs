@@ -1,3 +1,7 @@
+"use client"
+
+import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -5,6 +9,22 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ChevronLeft, BookOpen, Video, FileText, Clock } from "lucide-react"
 
 export default function CybersecurityCoursePage() {
+  const router = useRouter()
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+
+  useEffect(() => {
+    // Check authentication status on client side
+    const authStatus = localStorage.getItem("isAuthenticated") === "true"
+    setIsAuthenticated(authStatus)
+  }, [])
+
+  const handleAuthRequiredClick = (e, path) => {
+    if (!isAuthenticated) {
+      e.preventDefault()
+      router.push("/log-in")
+    }
+  }
+
   return (
     <div className="container px-4 py-12 md:px-6 max-w-7xl mx-auto">
       <div className="mb-6">
@@ -126,6 +146,7 @@ export default function CybersecurityCoursePage() {
                 <Link
                   href="/courses/cybersecurity-essentials/videos/introduction"
                   className="flex items-start gap-3 hover:bg-muted/50 p-2 rounded-md transition-colors"
+                  onClick={(e) => handleAuthRequiredClick(e, "/courses/cybersecurity-essentials/videos/introduction")}
                 >
                   <Video className="h-5 w-5 mt-0.5 text-primary" />
                   <div>
@@ -136,6 +157,7 @@ export default function CybersecurityCoursePage() {
                 <Link
                   href="/courses/cybersecurity-essentials/videos/threats"
                   className="flex items-start gap-3 hover:bg-muted/50 p-2 rounded-md transition-colors"
+                  onClick={(e) => handleAuthRequiredClick(e, "/courses/cybersecurity-essentials/videos/threats")}
                 >
                   <Video className="h-5 w-5 mt-0.5 text-primary" />
                   <div>
@@ -146,6 +168,7 @@ export default function CybersecurityCoursePage() {
                 <Link
                   href="/courses/cybersecurity-essentials/videos/passwords"
                   className="flex items-start gap-3 hover:bg-muted/50 p-2 rounded-md transition-colors"
+                  onClick={(e) => handleAuthRequiredClick(e, "/courses/cybersecurity-essentials/videos/passwords")}
                 >
                   <Video className="h-5 w-5 mt-0.5 text-primary" />
                   <div>
@@ -156,6 +179,7 @@ export default function CybersecurityCoursePage() {
                 <Link
                   href="/courses/cybersecurity-essentials/videos/malware"
                   className="flex items-start gap-3 hover:bg-muted/50 p-2 rounded-md transition-colors"
+                  onClick={(e) => handleAuthRequiredClick(e, "/courses/cybersecurity-essentials/videos/malware")}
                 >
                   <Video className="h-5 w-5 mt-0.5 text-primary" />
                   <div>
@@ -166,6 +190,7 @@ export default function CybersecurityCoursePage() {
                 <Link
                   href="/courses/cybersecurity-essentials/videos/network"
                   className="flex items-start gap-3 hover:bg-muted/50 p-2 rounded-md transition-colors"
+                  onClick={(e) => handleAuthRequiredClick(e, "/courses/cybersecurity-essentials/videos/network")}
                 >
                   <Video className="h-5 w-5 mt-0.5 text-primary" />
                   <div>
@@ -181,6 +206,7 @@ export default function CybersecurityCoursePage() {
                   <Link
                     href="/courses/cybersecurity-essentials/materials/syllabus"
                     className="flex items-center gap-3 hover:bg-muted/50 p-2 rounded-md transition-colors"
+                    onClick={(e) => handleAuthRequiredClick(e, "/courses/cybersecurity-essentials/materials/syllabus")}
                   >
                     <FileText className="h-5 w-5 text-primary" />
                     <span>Course Syllabus</span>
@@ -188,6 +214,7 @@ export default function CybersecurityCoursePage() {
                   <Link
                     href="/courses/cybersecurity-essentials/materials/checklist"
                     className="flex items-center gap-3 hover:bg-muted/50 p-2 rounded-md transition-colors"
+                    onClick={(e) => handleAuthRequiredClick(e, "/courses/cybersecurity-essentials/materials/checklist")}
                   >
                     <FileText className="h-5 w-5 text-primary" />
                     <span>Security Checklist</span>
@@ -195,6 +222,7 @@ export default function CybersecurityCoursePage() {
                   <Link
                     href="/courses/cybersecurity-essentials/materials/threats"
                     className="flex items-center gap-3 hover:bg-muted/50 p-2 rounded-md transition-colors"
+                    onClick={(e) => handleAuthRequiredClick(e, "/courses/cybersecurity-essentials/materials/threats")}
                   >
                     <FileText className="h-5 w-5 text-primary" />
                     <span>Common Threats Guide</span>

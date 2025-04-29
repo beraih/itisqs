@@ -1,10 +1,32 @@
+"use client"
+
+import type React from "react"
+
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ChevronLeft, BookOpen, Video, FileText, Clock, FileSpreadsheet } from "lucide-react"
+import { useEffect, useState } from "react"
 
 export default function PythonCoursePage() {
+  const router = useRouter()
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+
+  useEffect(() => {
+    // Check authentication status on client side
+    const authStatus = localStorage.getItem("isAuthenticated") === "true"
+    setIsAuthenticated(authStatus)
+  }, [])
+
+  const handleAuthRequiredClick = (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {
+    if (!isAuthenticated) {
+      e.preventDefault()
+      router.push("/log-in")
+    }
+  }
+
   return (
     <div className="container px-4 py-12 md:px-6 max-w-7xl mx-auto">
       <div className="mb-6">
@@ -126,6 +148,7 @@ export default function PythonCoursePage() {
                 <Link
                   href="/courses/introduction-to-python/videos/introduction"
                   className="flex items-start gap-3 hover:bg-muted/50 p-2 rounded-md transition-colors"
+                  onClick={(e) => handleAuthRequiredClick(e, "/courses/introduction-to-python/videos/introduction")}
                 >
                   <Video className="h-5 w-5 mt-0.5 text-primary" />
                   <div>
@@ -136,6 +159,7 @@ export default function PythonCoursePage() {
                 <Link
                   href="/courses/introduction-to-python/videos/variables"
                   className="flex items-start gap-3 hover:bg-muted/50 p-2 rounded-md transition-colors"
+                  onClick={(e) => handleAuthRequiredClick(e, "/courses/introduction-to-python/videos/variables")}
                 >
                   <Video className="h-5 w-5 mt-0.5 text-primary" />
                   <div>
@@ -146,6 +170,7 @@ export default function PythonCoursePage() {
                 <Link
                   href="/courses/introduction-to-python/videos/control-flow"
                   className="flex items-start gap-3 hover:bg-muted/50 p-2 rounded-md transition-colors"
+                  onClick={(e) => handleAuthRequiredClick(e, "/courses/introduction-to-python/videos/control-flow")}
                 >
                   <Video className="h-5 w-5 mt-0.5 text-primary" />
                   <div>
@@ -156,6 +181,7 @@ export default function PythonCoursePage() {
                 <Link
                   href="/courses/introduction-to-python/videos/lists"
                   className="flex items-start gap-3 hover:bg-muted/50 p-2 rounded-md transition-colors"
+                  onClick={(e) => handleAuthRequiredClick(e, "/courses/introduction-to-python/videos/lists")}
                 >
                   <Video className="h-5 w-5 mt-0.5 text-primary" />
                   <div>
@@ -166,6 +192,7 @@ export default function PythonCoursePage() {
                 <Link
                   href="/courses/introduction-to-python/videos/functions"
                   className="flex items-start gap-3 hover:bg-muted/50 p-2 rounded-md transition-colors"
+                  onClick={(e) => handleAuthRequiredClick(e, "/courses/introduction-to-python/videos/functions")}
                 >
                   <Video className="h-5 w-5 mt-0.5 text-primary" />
                   <div>
@@ -181,6 +208,7 @@ export default function PythonCoursePage() {
                   <Link
                     href="/courses/introduction-to-python/materials/syllabus"
                     className="flex items-center gap-3 hover:bg-muted/50 p-2 rounded-md transition-colors"
+                    onClick={(e) => handleAuthRequiredClick(e, "/courses/introduction-to-python/materials/syllabus")}
                   >
                     <FileText className="h-5 w-5 text-primary" />
                     <span>Course Syllabus</span>
@@ -188,6 +216,7 @@ export default function PythonCoursePage() {
                   <Link
                     href="/courses/introduction-to-python/materials/exercises"
                     className="flex items-center gap-3 hover:bg-muted/50 p-2 rounded-md transition-colors"
+                    onClick={(e) => handleAuthRequiredClick(e, "/courses/introduction-to-python/materials/exercises")}
                   >
                     <FileText className="h-5 w-5 text-primary" />
                     <span>Week 1 Exercises</span>
@@ -195,6 +224,9 @@ export default function PythonCoursePage() {
                   <Link
                     href="/courses/introduction-to-python/materials/installation"
                     className="flex items-center gap-3 hover:bg-muted/50 p-2 rounded-md transition-colors"
+                    onClick={(e) =>
+                      handleAuthRequiredClick(e, "/courses/introduction-to-python/materials/installation")
+                    }
                   >
                     <FileText className="h-5 w-5 text-primary" />
                     <span>Python Installation Guide</span>
@@ -208,6 +240,7 @@ export default function PythonCoursePage() {
                   <Link
                     href="/courses/introduction-to-python/assignments"
                     className="flex items-center gap-3 hover:bg-muted/50 p-2 rounded-md transition-colors"
+                    onClick={(e) => handleAuthRequiredClick(e, "/courses/introduction-to-python/assignments")}
                   >
                     <FileSpreadsheet className="h-5 w-5 text-primary" />
                     <div>
@@ -218,6 +251,7 @@ export default function PythonCoursePage() {
                   <Link
                     href="/courses/introduction-to-python/assignments/week2"
                     className="flex items-center gap-3 hover:bg-muted/50 p-2 rounded-md transition-colors"
+                    onClick={(e) => handleAuthRequiredClick(e, "/courses/introduction-to-python/assignments/week2")}
                   >
                     <FileSpreadsheet className="h-5 w-5 text-primary" />
                     <div>

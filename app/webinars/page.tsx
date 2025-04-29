@@ -1,15 +1,35 @@
+"use client"
+
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { CalendarDays, Users, Clock } from "lucide-react"
+import { CalendarDays, Users, Clock, Plus } from "lucide-react"
+import { useUser } from "@/components/user-context"
 
 export default function WebinarsPage() {
+  // Use the useUser hook to get the user's role
+  const { role, isAuthenticated } = useUser()
+
+  // Check if the user is an instructor
+  const isInstructor = isAuthenticated && role === "instructor"
+
   return (
     <div className="container px-4 py-12 md:px-6 max-w-7xl mx-auto">
       <div className="flex flex-col gap-2 mb-8">
-        <h1 className="text-4xl font-bold tracking-tight">Live Webinars & Virtual Events</h1>
+        <div className="flex justify-between items-center">
+          <h1 className="text-4xl font-bold tracking-tight">Live Webinars & Virtual Events</h1>
+
+          {/* Only show the "Schedule Webinar" button if the user is an instructor */}
+          {isInstructor && (
+            <Button asChild>
+              <Link href="/instructor/create-webinar">
+                <Plus className="mr-2 h-4 w-4" /> Schedule Webinar
+              </Link>
+            </Button>
+          )}
+        </div>
         <p className="text-xl text-muted-foreground">
           Join live sessions, interact with experts, and enhance your knowledge.
         </p>
@@ -165,8 +185,18 @@ export default function WebinarsPage() {
                 </div>
               </CardContent>
               <CardFooter>
-                <Button className="w-full" variant="default" asChild>
-                  <Link href="/webinars/fintech-security/live">Join Live Session</Link>
+                <Button
+                  className="w-full"
+                  onClick={() => {
+                    const isAuthenticated = localStorage.getItem("isAuthenticated") === "true"
+                    if (isAuthenticated) {
+                      window.location.href = `/webinars/fintech-security/live`
+                    } else {
+                      window.location.href = "/log-in"
+                    }
+                  }}
+                >
+                  Join Live Session
                 </Button>
               </CardFooter>
             </Card>
@@ -213,8 +243,18 @@ export default function WebinarsPage() {
                 </div>
               </CardContent>
               <CardFooter>
-                <Button className="w-full" variant="default" asChild>
-                  <Link href="/webinars/web3-blockchain/live">Join Live Session</Link>
+                <Button
+                  className="w-full"
+                  onClick={() => {
+                    const isAuthenticated = localStorage.getItem("isAuthenticated") === "true"
+                    if (isAuthenticated) {
+                      window.location.href = `/webinars/web3-blockchain/live`
+                    } else {
+                      window.location.href = "/log-in"
+                    }
+                  }}
+                >
+                  Join Live Session
                 </Button>
               </CardFooter>
             </Card>

@@ -1,6 +1,8 @@
+"use client"
+
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { ChevronLeft, ExternalLink } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
@@ -32,11 +34,19 @@ export default function LiveWebinarPage() {
                   <p className="mb-6">
                     This webinar is being hosted on Google Meet. Click the button below to join the live session.
                   </p>
-                  <Button className="gap-2" asChild>
-                    <a href="https://meet.google.com/example-meeting-id" target="_blank" rel="noopener noreferrer">
-                      <ExternalLink className="h-4 w-4" />
-                      Join Google Meet Session
-                    </a>
+                  <Button
+                    className="gap-2"
+                    onClick={() => {
+                      const isAuthenticated = localStorage.getItem("isAuthenticated") === "true"
+                      if (isAuthenticated) {
+                        window.open("https://meet.google.com/example-meeting-id", "_blank", "noopener,noreferrer")
+                      } else {
+                        window.location.href = "/log-in"
+                      }
+                    }}
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                    Join Google Meet Session
                   </Button>
                 </div>
                 <div className="text-muted-foreground">
@@ -47,6 +57,21 @@ export default function LiveWebinarPage() {
                 </div>
               </div>
             </CardContent>
+            <CardFooter>
+              <Button
+                className="w-full"
+                variant="default"
+                onClick={() => {
+                  // Check if user is authenticated
+                  const isAuthenticated = localStorage.getItem("isAuthenticated") === "true"
+                  if (!isAuthenticated) {
+                    window.location.href = "/log-in"
+                  }
+                }}
+              >
+                Join Live Session
+              </Button>
+            </CardFooter>
           </Card>
 
           <Card>

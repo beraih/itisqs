@@ -20,17 +20,39 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [authStatus, setAuthStatus] = useState<AuthStatus>("loading")
 
   useEffect(() => {
-    // Check if user is authenticated on client side
-    const storedRole = localStorage.getItem("userRole") as UserRole
-    const isAuthenticated = localStorage.getItem("isAuthenticated") === "true"
+    // Check if we're in the browser environment
+    if (typeof window !== "undefined") {
+      // Check if user is authenticated on client side
+      const storedRole = localStorage.getItem("userRole") as UserRole
+      const isAuthenticated = localStorage.getItem("isAuthenticated") === "true"
 
-    if (isAuthenticated && storedRole) {
-      setRole(storedRole)
-      setAuthStatus("authenticated")
-    } else {
-      setRole(null)
-      setAuthStatus("unauthenticated")
+      if (isAuthenticated && storedRole) {
+        setRole(storedRole)
+        setAuthStatus("authenticated")
+      } else {
+        setRole(null)
+        setAuthStatus("unauthenticated")
+      }
     }
+  }, [])
+
+  useEffect(() => {
+    // Listen for storage events (in case localStorage changes in another tab)
+    const handleStorageChange = () => {
+      const storedRole = localStorage.getItem("userRole") as UserRole
+      const isAuthenticated = localStorage.getItem("isAuthenticated") === "true"
+
+      if (isAuthenticated && storedRole) {
+        setRole(storedRole)
+        setAuthStatus("authenticated")
+      } else {
+        setRole(null)
+        setAuthStatus("unauthenticated")
+      }
+    }
+
+    window.addEventListener("storage", handleStorageChange)
+    return () => window.removeEventListener("storage", handleStorageChange)
   }, [])
 
   const login = (newRole: UserRole) => {

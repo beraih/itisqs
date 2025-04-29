@@ -27,7 +27,6 @@ export default function SignInPage() {
       setIsLoading(false)
 
       // Store user role in localStorage for demo purposes
-      // In a real app, this would be handled by a proper auth system
       localStorage.setItem("userRole", role)
       localStorage.setItem("isAuthenticated", "true")
 
@@ -36,8 +35,8 @@ export default function SignInPage() {
         description: `You have successfully registered as a ${role}.`,
       })
 
-      // Redirect to home page
-      router.push("/")
+      // Force a reload to ensure all components recognize the authentication state
+      window.location.href = "/"
     }, 1500)
   }
 
